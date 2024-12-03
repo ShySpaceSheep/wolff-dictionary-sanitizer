@@ -7,6 +7,7 @@ from sanitizers.syllables import substring_replace
 from sanitizers.vowel_acute_marker import acute_markers
 from sanitizers.numerical_syntax import accentless_numerical_syntax
 from sanitizers.accent_marker_sanitizer import sanitize_all_markers
+from utils.syllables_lister import count_syllables
 
 def main():
     dictionary_data = pd.read_csv("data/raw/ceb_roots.csv")
@@ -30,6 +31,8 @@ def main():
     filtered_data = accentless_numerical_syntax(filtered_data)
     filtered_data = sanitize_all_markers(filtered_data)
 
+    syllables_to_record = count_syllables(filtered_data)
+    syllables_to_record.to_csv("data/exports/syllables_to_record.csv", index=False)
     filtered_data.to_csv("data/exports/ceb_roots_filtered.csv", index=False)
     
     print("\nFiltered data saved to 'data/raw/ceb_roots_filtered.csv'")
